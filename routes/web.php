@@ -19,5 +19,5 @@ use App\Http\Controllers\HomeController;
 // });
 
 Route::get('/',[HomeController::class, 'index']);
-
+Route::get('/product/deetails',[HomeController::class,'productDetails']);
 
