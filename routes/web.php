@@ -20,4 +20,8 @@ use App\Http\Controllers\HomeController;
 
 Route::get('/',[HomeController::class, 'index']);
 Route::get('/product/deetails',[HomeController::class,'productDetails']);
-
+Route::get('/product/view-cart',[HomeController::class, 'viewCart']);
+Route::get('/product/checkout',[HomeController::class, 'productCheckout']);
+Route::get('/shop-products',[HomeController::class, 'shopProducts']);
+Route::get('/return-products',[HomeController::class, 'returnProducts']);
+Route::get('/privacy-Policy',[HomeController::class, 'privacyPolicy']);

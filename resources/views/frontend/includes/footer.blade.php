@@ -16,7 +16,7 @@
 							</h4>
 							<ul class="footer__list">
 								<li class="footer__list-item">
-									<a href="privacy-policy.html" class="footer__list-item-link">
+									<a href="{{url('/privacy-Policy')}}" class="footer__list-item-link">
 										Privacy Policy
 									</a>
 								</li>
