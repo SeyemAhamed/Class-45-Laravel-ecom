@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Backend\AdminController;
+use App\Http\Controllers\Backend\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Backend\AdminController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -33,3 +35,7 @@ Route::get('/admin/login',[AdminController::class,'login']);
 Route::post('/admin/login-access',[AdminController::class,'loginCheck']);
 
 Route::get('/admin/dashboard',[AdminController::class, 'dashboard']);
+
+//Cateroy Route......
+Route::get('/admin/category/create',[CategoryController::class,'createCategory']);
+Route::post('/admin/category/store',[CategoryController::class,'storeCategory']);
