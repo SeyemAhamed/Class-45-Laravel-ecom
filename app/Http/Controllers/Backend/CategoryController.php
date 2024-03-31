@@ -42,4 +42,28 @@ class CategoryController extends Controller
             }
         }
     }
+
+    public function showCategory ()
+    {
+        
+        if(Auth::user()){
+            if(Auth::user()->role == 1){
+                $categories = Category::get();
+                return view ('backend.admin.category.list',compact('categories'));
+            }
+        }
+            
+    }
+
+    public function deleteCategory ($id)
+    {
+        $category = Category::find($id);
+
+        if($category->image && file_exists('backend/images/category/'.$category->image)){
+            unlink('backend/images/category/'.$category->image);
+        }
+
+        $category->delete();
+        return redirect()->back();
+    }
 }
