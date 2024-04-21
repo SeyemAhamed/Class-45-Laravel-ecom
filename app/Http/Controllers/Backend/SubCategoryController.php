@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
-class SubCategoryConotroller extends Controller
+class SubCategoryController extends Controller
 {
     public function showSubCategory ()
     {
