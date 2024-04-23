@@ -11,30 +11,30 @@ use Illuminate\Support\Str;
 
 class SubCategoryController extends Controller
 {
-    public function showSubCategory ()
+    public function showSubCategory()
     {
-        if(Auth::user()){
-            if(Auth::user()->role == 1){
-                $subCategories = SubCategory::get();
-                return view ('backend.admin.subcategory.list', compact('subCategories'));
+        if (Auth::user()) {
+            if (Auth::user()->role == 1) {
+                $subCategories = SubCategory::with('category')->get();
+                return view('backend.admin.subcategory.list', compact('subCategories'));
             }
         }
     }
 
-    public function createSubCategory ()
+    public function createSubCategory()
     {
-        if(Auth::user()){
-            if(Auth::user()->role == 1){
+        if (Auth::user()) {
+            if (Auth::user()->role == 1) {
                 $categories = Category::get();
-                return view ('backend.admin.subcategory.create', compact('categories'));
+                return view('backend.admin.subcategory.create', compact('categories'));
             }
         }
     }
 
-    public function storeSubCategory (Request $request)
+    public function storeSubCategory(Request $request)
     {
-        if(Auth::user()){
-            if(Auth::user()->role){
+        if (Auth::user()) {
+            if (Auth::user()->role ==1) {
                 $subCategory = new SubCategory();
 
                 $subCategory->cat_id = $request->cat_id;
@@ -43,6 +43,48 @@ class SubCategoryController extends Controller
 
                 $subCategory->save();
                 toastr()->success('Successfully Created!');
+                return redirect()->back();
+            }
+        }
+    }
+
+    public function editSubCategory($id)
+    {
+        if (Auth::user()) {
+            if (Auth::user()->role ==1) {
+                $subCategory = SubCategory::find($id);
+                $categories =Category::get(); 
+                return view ('backend.admin.subcategory.edit',compact('subCategory','categories'));
+            }
+        }
+    }
+
+    public function updateSubCategory ( Request $request, $id)
+    {
+        if(Auth::user()){
+            if(Auth::user()->role ==1){
+                $subCategory = SubCategory::find($id);
+
+                $subCategory->cat_id = $request->cat_id;
+                $subCategory->name = $request->name;
+                $subCategory->slug = Str::slug($request->name);
+
+                $subCategory->save();
+
+                toastr()->success('Successfully Updated!');
+                return redirect()->back();
+            }
+        }
+    }
+
+    public function deleteSubCategory ($id)
+    {
+        if(Auth::user()){
+            if(Auth::user()->role ==1){
+                $subCategory = SubCategory::find($id);
+                $subCategory->delete();
+
+                toastr()->success('Successfully Deleted!');
                 return redirect()->back();
             }
         }
