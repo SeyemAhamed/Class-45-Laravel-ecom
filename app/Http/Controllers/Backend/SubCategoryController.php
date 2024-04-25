@@ -84,7 +84,7 @@ class SubCategoryController extends Controller
                 $subCategory = SubCategory::find($id);
                 $subCategory->delete();
 
-                toastr()->success('Successfully Deleted!');
+                toastr()->success('Successfully Deletedphp!');
                 return redirect()->back();
             }
         }
