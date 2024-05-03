@@ -1,11 +1,13 @@
-
 <?php
 
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Color;
+use App\Models\GalleryImage;
 use App\Models\Product;
+use App\Models\Size;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -62,6 +64,57 @@ class ProductController extends Controller
                 $product->product_policy = $request->product_policy;
 
                 $product->save();
+
+                //Insert product color...
+                if(isset($request->color)){
+                    $colors = Color::where('product_id', $product->id)->get();
+                    foreach($colors as $data){
+                        $data->delete();
+                    }
+                    foreach($request->color as $name){
+                        $color = new Color();
+
+                        $color->product_id = $product->id;
+                        $color->color_name = $name;
+                        $color->save();
+                    }
+                }
+
+                  //Insert Product Size...
+                  if(isset($request->size)){
+                    $sizes = Size::where('product_id', $product->id)->get();
+                    foreach($sizes as $data){
+                        $data->delete();
+                    }
+                    foreach($request->size as $name){
+                        $size = new Size();
+
+                        $size->product_id = $product->id;
+                        $size->size_name = $name;
+                        $size->save();
+                    }
+                }
+
+                 //Insert GalleryImage....
+                 if(isset($request->galleryImage)){
+                    $galleryImage = GalleryImage::where('product_id', $product->id)->get();
+                    foreach($galleryImage as $data){
+                        if($data->image && file_exists('backend/images/galleryImage/'.$data->image)){
+                            unlink('backend/images/galleryImage/'.$data->image);
+                        }
+
+                        $data->delete();
+                    }
+                    foreach($request->galleryImage as $image){
+                        $galleryImage = new GalleryImage();
+                        $galleryImage->product_id = $product->id;
+                        $imageName = rand().'-galleryImage-'.'.'.$image->extension();
+                        $image->move('backend/images/galleryImage/',$imageName);
+                        $galleryImage->image = $imageName;
+
+                        $galleryImage->save();
+                    }
+                }
                 toastr()->success('Product is Created Successfully!');
                 return redirect()->back();
             }
