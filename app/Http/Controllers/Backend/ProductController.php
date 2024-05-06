@@ -65,10 +65,94 @@ class ProductController extends Controller
 
                 $product->save();
 
-                //Insert product color...
+                //Insert Product Color...
+                if(isset($request->color)){
+                    foreach($request->color as $name){
+                        $color = new Color();
+
+                        $color->product_id = $product->id;
+                        $color->color_name = $name;
+                        $color->save();
+                    }
+                }
+
+                //Insert Product Size...
+                if(isset($request->size)){
+                    foreach($request->size as $name){
+                        $size = new Size();
+
+                        $size->product_id = $product->id;
+                        $size->size_name = $name;
+                        $size->save();
+                    }
+                }
+
+                //Insert GalleryImage....
+                if(isset($request->galleryImage)){
+                    foreach($request->galleryImage as $image){
+                        $galleryImage = new GalleryImage();
+                        $galleryImage->product_id = $product->id;
+                        $imageName = rand().'-galleryImage-'.'.'.$image->extension();
+                        $image->move('backend/images/galleryImage/',$imageName);
+                        $galleryImage->image = $imageName;
+
+                        $galleryImage->save();
+                    }
+                }
+
+                toastr()->success('Product is Created Successfully!');
+                return redirect()->back();
+            }
+        }
+    }
+
+    public function editProduct ($id)
+    {
+        if(Auth::user()){
+            if(Auth::user()->role ==1){
+                $categories = Category::orderBy('name', 'asc')->get();
+                $subCategories = SubCategory::orderBy('name', 'asc')->get();
+                $product = Product::where('id', $id)->with('color', 'size', 'galleryImage')->first();
+                return view ('backend.admin.product.edit', compact('product', 'categories', 'subCategories'));
+            }
+        }
+    }
+
+    public function updateProduct (Request $request, $id)
+    {
+        if(Auth::user()){
+            if(Auth::user()->role ==1){
+                $product = Product::find($id);
+
+                if(isset($request->image)){
+                    if($product->image && file_exists('backend/images/product/'.$product->image)){
+                        unlink('backend/images/product/'.$product->image);
+                    }
+                    $imageName = rand().'-product-'.'.'.$request->image->extension();
+                    $request->image->move('backend/images/product/',$imageName);
+                    $product->image = $imageName;
+                }
+
+                $product->name = $request->name;
+                $product->slug = Str::slug($request->name);
+                $product->cat_id = $request->cat_id;
+                $product->sub_cat_id = $request->sub_cat_id;
+                $product->regular_price = $request->regular_price;
+                $product->discount_price = $request->discount_price;
+                $product->buy_price = $request->buy_price;
+                $product->qty = $request->qty;
+                $product->product_type = $request->product_type;
+                $product->short_desc = $request->short_desc;
+                $product->long_desc = $request->long_desc;
+                $product->product_policy = $request->product_policy;
+
+                $product->save();
+
+                //Insert Product Color...
                 if(isset($request->color)){
                     $colors = Color::where('product_id', $product->id)->get();
                     foreach($colors as $data){
+                        // dd($data);
                         $data->delete();
                     }
                     foreach($request->color as $name){
@@ -80,8 +164,8 @@ class ProductController extends Controller
                     }
                 }
 
-                  //Insert Product Size...
-                  if(isset($request->size)){
+                //Insert Product Size...
+                if(isset($request->size)){
                     $sizes = Size::where('product_id', $product->id)->get();
                     foreach($sizes as $data){
                         $data->delete();
@@ -95,8 +179,8 @@ class ProductController extends Controller
                     }
                 }
 
-                 //Insert GalleryImage....
-                 if(isset($request->galleryImage)){
+                //Insert GalleryImage....
+                if(isset($request->galleryImage)){
                     $galleryImage = GalleryImage::where('product_id', $product->id)->get();
                     foreach($galleryImage as $data){
                         if($data->image && file_exists('backend/images/galleryImage/'.$data->image)){
@@ -115,7 +199,48 @@ class ProductController extends Controller
                         $galleryImage->save();
                     }
                 }
-                toastr()->success('Product is Created Successfully!');
+
+                toastr()->success('Product is Updated Successfully!');
+                return redirect()->back();
+            }
+        }
+    }
+
+    public function deleteProduct ($id)
+    {
+        if(Auth::user()){
+            if(Auth::user()->role ==1){
+                $product = Product::find($id);
+
+                if($product->image && file_exists('backend/images/product/'.$product->image)){
+                    unlink('backend/images/product/'.$product->image);
+                }
+
+                $galleryImage = GalleryImage::where('product_id', $product->id)->get();
+                foreach($galleryImage as $data){
+                    if($data->image && file_exists('backend/images/galleryImage/'.$data->image)){
+                        unlink('backend/images/galleryImage/'.$data->image);
+                    }
+
+                        $data->delete();
+                }
+
+                $sizes = Size::where('product_id', $product->id)->get();
+                if($sizes !=null){
+                    foreach($sizes as $data){
+                        $data->delete();
+                    }
+                }
+
+                $colors = Color::where('product_id', $product->id)->get();
+                if($colors != null){
+                    foreach($colors as $data){
+                        $data->delete();
+                    }
+                }
+
+                $product->delete();
+                toastr()->success('Product is Deleted Successfully!');
                 return redirect()->back();
             }
         }
