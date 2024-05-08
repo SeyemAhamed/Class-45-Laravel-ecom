@@ -30,6 +30,11 @@ Route::get('/product/checkout', [HomeController::class, 'productCheckout']);
 Route::get('/shop-products', [HomeController::class, 'shopProduct']);
 Route::get('/return-products', [HomeController::class, 'returnProduct']);
 
+//Add to Cart Routes...
+Route::post('/product/addtocart-details/{id}', [HomeController::class, 'addtoCartDetails']);
+Route::get('/product/addtocart/{id}', [HomeController::class, 'addtoCart']);
+
+
 
 Auth::routes();
 
