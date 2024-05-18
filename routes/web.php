@@ -33,6 +33,7 @@ Route::get('/return-products', [HomeController::class, 'returnProduct']);
 //Add to Cart Routes...
 Route::post('/product/addtocart-details/{id}', [HomeController::class, 'addtoCartDetails']);
 Route::get('/product/addtocart/{id}', [HomeController::class, 'addtoCart']);
+Route::get('/product/addtocart/delete/{id}', [HomeController::class, 'deleteAddtoCart']);
 
 
 

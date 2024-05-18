@@ -30,6 +30,7 @@ class HomeController extends Controller
 
     public function productCheckout ()
     {
+        
         return view ('home.checkout');
     }
 
@@ -123,6 +124,15 @@ class HomeController extends Controller
             toastr()->success('Added to cart!');
             return redirect()->back();
         }
+    }
+
+    public function deleteAddtoCart($id)
+    {
+        $cartProduct = Cart::find($id);
+        $cartProduct->delete();
+
+        // toastr()->success('Removed from cart!');
+        return redirect()->back();
     }
 }
 
