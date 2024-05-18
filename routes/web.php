@@ -36,6 +36,10 @@ Route::get('/product/addtocart/{id}', [HomeController::class, 'addtoCart']);
 Route::get('/product/addtocart/delete/{id}', [HomeController::class, 'deleteAddtoCart']);
 
 
+//Make Order....
+Route::post('/confirm-order',[HomeController::class,'confirmOrder']);
+
+
 
 Auth::routes();
 
