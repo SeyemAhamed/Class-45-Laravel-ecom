@@ -3,6 +3,7 @@
 use App\Http\Controllers\Backend\AdminController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\SettingController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -38,6 +39,7 @@ Route::get('/product/addtocart/delete/{id}', [HomeController::class, 'deleteAddt
 
 //Make Order....
 Route::post('/confirm-order',[HomeController::class,'confirmOrder']);
+Route::get('/order-confirmed/{invoiceId}',[HomeController::class,'thankyouMessage']);
 
 
 
@@ -72,3 +74,8 @@ Route::post('/admin/product/store', [ProductController::class, 'storeProduct']);
 Route::get('/admin/product/delete/{id}',[ProductController::class, 'deleteProduct']);
 Route::get('/admin/product/edit/{id}', [ProductController::class, 'editProduct']);
 Route::post('/admin/product/update/{id}', [ProductController::class, 'updateProduct']);
+
+
+//Setting......
+Route::get('/admin/general-setting',[SettingController::class,'showSettings']);
+Route::post('/admin/general-setting/update',[SettingController::class,'updateSettings']);
