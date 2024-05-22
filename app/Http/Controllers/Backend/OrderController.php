@@ -73,6 +73,20 @@ class OrderController extends Controller
         }
     }
 
+    public function statusPending ($id)
+    {
+        if(Auth::user()){
+            if(Auth::user()->role ==1){
+                $order = Order::find($id);
+                $order->status = 'pending';
+
+                $order->save();
+                toastr()->success('Order has been pending!');
+                return redirect()->back();
+            }
+        }
+    }
+
     public function statusConfirmed ($id)
     {
         if(Auth::user()){
@@ -105,6 +119,17 @@ class OrderController extends Controller
                     toastr()->error('Courier is not selected yet!');
                     return redirect()->back();
                 }
+            }
+        }
+    }
+
+
+    public function orderDetails ($id)
+    {
+        if(Auth::user()){
+            if(Auth::user()->role ==1){
+                $order = Order::where('id',$id)->with('orderDetails')->first();
+                return view('backend.admin.orders.detalis',compact('order'));
             }
         }
     }

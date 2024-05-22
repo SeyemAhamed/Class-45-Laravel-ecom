@@ -40,6 +40,7 @@
                         <td>
                             <a href="{{url('/admin/order/status-pending/'.$order->id)}}" class="btn btn-primary">Pending</a>
                             <a href="{{url('/admin/order/status-cancelled/'.$order->id)}}" class="btn btn-danger">Cancel</a>
+                            <a href="{{url('/admin/order/details/'.$order->id)}}" class="btn btn-success">Details</a>
                         </td>
                     </tr>
                     @endforeach
