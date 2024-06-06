@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class OrderController extends Controller
 {
@@ -73,20 +74,6 @@ class OrderController extends Controller
         }
     }
 
-    public function statusPending ($id)
-    {
-        if(Auth::user()){
-            if(Auth::user()->role ==1){
-                $order = Order::find($id);
-                $order->status = 'pending';
-
-                $order->save();
-                toastr()->success('Order has been pending!');
-                return redirect()->back();
-            }
-        }
-    }
-
     public function statusConfirmed ($id)
     {
         if(Auth::user()){
@@ -110,6 +97,41 @@ class OrderController extends Controller
                 if($order->courier_name != null){
                     $order->status = 'delivered';
 
+                    if($order->courier_name == "steadfast"){
+                        $endPoint = "https://portal.steadfast.com.bd/api/v1/create_order";
+
+                        //Authentication Parametre....
+                        $apiKey = "use your own appkey";
+                        $secretKey = "use your own secretkey";
+
+                        //The Body Parameters.....
+                        $invoice = $order->invoiceId;
+                        $customerName = $order->c_name;
+                        $customerPhone = $order->c_phone;
+                        $customerAddress = $order->address;
+                        $price = $order->price;
+
+                        //The Header.....
+                        $header = [
+                            'Api-Key' => $apiKey,
+                            'Secret-Key' => $secretKey,
+                            'Content-Type' => 'application/json'
+                        ];
+
+                        //The Paylod.....
+                        $payload = [
+                            'invoice' => $invoice,
+                            'recipient_name' => $customerName,
+                            'recipient_phone' => $customerPhone,
+                            'recipient_address' => $customerAddress,
+                            'cod_amount' => $price
+                        ];
+
+                        $response = Http::withHeaders($header)->post($endPoint, $payload);
+
+                        $responseData = $response->json();
+                    }
+
                     $order->save();
                     toastr()->success('Order has been confirmed!');
                     return redirect()->back();
@@ -123,15 +145,46 @@ class OrderController extends Controller
         }
     }
 
-
     public function orderDetails ($id)
     {
         if(Auth::user()){
             if(Auth::user()->role ==1){
-                $order = Order::where('id',$id)->with('orderDetails')->first();
-                return view('backend.admin.orders.detalis',compact('order'));
+                $order = Order::where('id', $id)->with('orderDetails')->first();
+                return view ('backend.admin.orders.details', compact('order'));
+            }
+        }
+    }
+
+    public function orderUpdate (Request $request, $id)
+    {
+        if(Auth::user()){
+            if(Auth::user()->role ==1 || Auth::user()->role ==2){
+                $order = Order::find($id);
+
+                $order->c_name = $request->c_name;
+                $order->c_phone = $request->c_phone;
+                $order->email = $request->email;
+                $order->address = $request->address;
+                $order->price = $request->price;
+
+                if(isset($request->courier_name)){
+                    if($request->courier_name == 'steadfast'){
+                        $order->courier_name = 'steadfast';
+                    }
+    
+                    if($request->courier_name == 'others'){
+                        $order->courier_name = $request->others_courier;
+                    }
+
+                    //Send email to Customer if email id is available...
+
+                    //Send email to Customer if email id is available...
+                }
+
+                $order->save();
+                toastr()->success('Order is updated Successfully');
+                return redirect()->back();
             }
         }
     }
 }
-

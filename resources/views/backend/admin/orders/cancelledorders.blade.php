@@ -16,6 +16,7 @@
                         <th>Invoice Number</th>
                         <th>Product</th>
                         <th>Customer Info</th>
+                        <th>Courier Name</th>
                         <th>Order Status</th>
                         <th>Action</th>
                     </tr>
@@ -36,6 +37,7 @@
                             Phone: {{$order->c_phone}} <br>
                             Address: {{$order->address}} <br>
                         </td>
+                        <td>{{$order->courier_name??"Not Selected"}}</td>
                         <td>{{$order->status}}</td>
                         <td>
                             <a href="{{url('/admin/order/status-pending/'.$order->id)}}" class="btn btn-primary">Pending</a>
