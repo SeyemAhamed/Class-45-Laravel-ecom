@@ -7,10 +7,11 @@
 			<div class="home__slider-sec-wrap">
 				<div class="home__category-outer">
 					<ul class="header__category-list">
+						@foreach ($allCategories as $category)
 						<li class="header__category-list-item item-has-submenu">
-							<a href="category-product.html" class="header__category-list-item-link">
-								<img src="{{asset('frontend/assets/images/product.png')}}" alt="category">
-								Test Category
+							<a href="" class="header__category-list-item-link">
+								<img src="{{asset('backend/images/category/'.$category->image)}}" alt="category">
+								{{$category->name}}
 							</a>
 							<ul class="header__nav-item-category-submenu">
 								<li class="header__category-submenu-item">
