@@ -77,8 +77,6 @@ Route::get('/admin/product/edit/{id}', [ProductController::class, 'editProduct']
 Route::post('/admin/product/update/{id}', [ProductController::class, 'updateProduct']);
 
 //Orders.........
-Route::get('/admin/order/edit/{id}',[OrderController::class, 'editOrder']);
-Route::post('/admin/order/update/{id}',[OrderController::class, 'updateOrder']);
 Route::get('/admin/orders/all-orders',[OrderController::class, 'showAllOrders']);
 Route::get('/admin/orders/pending-orders',[OrderController::class, 'showPendingOrders']);
 Route::get('/admin/orders/confirmed-orders',[OrderController::class, 'showConfirmedOrders']);
@@ -89,7 +87,7 @@ Route::get('/admin/order/status-confirmed/{id}',[OrderController::class, 'status
 Route::get('/admin/order/status-delivered/{id}',[OrderController::class, 'statusDelivered']);
 Route::get('/admin/order/status-cancelled/{id}',[OrderController::class, 'statusCancelled']);
 Route::get('/admin/order/details/{id}',[OrderController::class, 'orderDetails']);
-Route::get('/admin/order/update/{id}',[OrderController::class, 'orderUpdate']);
+Route::post('/admin/order/update/{id}',[OrderController::class, 'orderUpdate']);
 
 //Setting......
 Route::get('/admin/general-setting',[SettingController::class,'showSettings']);
