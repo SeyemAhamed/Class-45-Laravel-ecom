@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
+
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
@@ -41,6 +41,12 @@ Route::get('/product/addtocart/delete/{id}', [HomeController::class, 'deleteAddt
 //Make Order....
 Route::post('/confirm-order',[HomeController::class,'confirmOrder']);
 Route::get('/order-confirmed/{invoiceId}',[HomeController::class,'thankyouMessage']);
+
+
+//Category Products....
+Route::get('category-products/{slug}', [HomeController::class, 'categoryProducts']);
+Route::get('sub-category-products/{slug}', [HomeController::class, 'subCategoryProducts']);
+
 
 
 

@@ -106,7 +106,7 @@
 						</div>
 						<div class="product__type-badge-outer">
 							<span class="product__type-badge-inner">
-								Hot
+								{{$product->product_type}}
 							</span>
 						</div>
 					</div>
