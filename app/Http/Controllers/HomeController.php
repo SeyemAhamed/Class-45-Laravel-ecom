@@ -5,9 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\OrderRequest;
 use App\Models\Cart;
 use App\Models\Category;
+use App\Models\HomeBanner;
 use App\Models\Order;
 use App\Models\OrderDetails;
+use App\Models\PrivacyPolicy;
 use App\Models\Product;
+use App\Models\RefundPolicy;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
 
@@ -19,7 +22,8 @@ class HomeController extends Controller
         $newProducts = Product::where('product_type','new')->orderBy('id','desc')->get();
         $regularProducts = Product::where('product_type','regular')->orderBy('id','desc')->get();
         $discountProducts = Product::where('product_type','discount')->orderBy('id','desc')->get();
-        return view ('home.index',compact('hotProducts','newProducts','regularProducts','discountProducts'));
+        $homeBanner = HomeBanner::first();
+        return view ('home.index',compact('hotProducts','newProducts','regularProducts','discountProducts', 'homeBanner'));
     }
 
     public function productDetails ($slug)
@@ -61,10 +65,7 @@ class HomeController extends Controller
         return view ('home.return-product');
     }
 
-    public function privacyPolicy ()
-    {
-        return view ('home.privacy-Policy');
-    }
+
 
     //Add to Cart......
 
@@ -221,7 +222,29 @@ class HomeController extends Controller
 
      }
 
+     public function searchProducts (Request $request)
+     {
+        if(isset($request->search)){
+        $searchProducts = Product::where('name','LIKE','%'.$request->search.'%')->get();
+            return view('home.search-products', compact('products'));
+        }
 
+
+     }
+
+     //Inner Pages....
+
+     public function privacyPolicy ()
+    {
+        $privacyPolicy = PrivacyPolicy::first();
+        return view ('home.privacy-policy' ,compact('privacyPolicy'));
+    }
+
+    public function refundPolicy ()
+    {
+        $refundPolicy = RefundPolicy::first();
+        return view('home.refund-policy' , compact('refundPolicy'));
+    }
 
     }
 

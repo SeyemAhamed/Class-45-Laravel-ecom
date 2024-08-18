@@ -16,7 +16,7 @@
 							</h4>
 							<ul class="footer__list">
 								<li class="footer__list-item">
-									<a href="{{url('/privacy-Policy')}}" class="footer__list-item-link">
+									<a href="{{url('/privacy-policy')}}" class="footer__list-item-link">
 										Privacy Policy
 									</a>
 								</li>
@@ -26,7 +26,7 @@
 									</a>
 								</li>
 								<li class="footer__list-item">
-									<a href="#" class="footer__list-item-link">
+									<a href="{{url('/refund-policy')}}" class="footer__list-item-link">
 										Refund Policy
 									</a>
 								</li>

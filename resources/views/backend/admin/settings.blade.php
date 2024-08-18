@@ -44,11 +44,11 @@
                       <label for="logo">Logo</label>
                       <div class="input-group">
                         <div class="custom-file">
-                          <input type="file" class="custom-file-input" id="logo" name="logo" accept="logo/*">
+                          <input type="file" class="custom-file-input" id="logo" name="logo" accept="/*">
                           <label class="custom-file-label" for="logo">Choose file</label>
                         </div>
                       </div>
-                      <img src="{{asset('backend/images/settings/'.$settings->logo)}}" alt="">
+                      <img src="{{asset('backend/images/settings/'.$settings->logo)}}" alt="" height="100" width="150">
                     </div>
                   </div>
                   <!-- /.card-body -->

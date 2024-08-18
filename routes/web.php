@@ -48,6 +48,14 @@ Route::get('category-products/{slug}', [HomeController::class, 'categoryProducts
 Route::get('sub-category-products/{slug}', [HomeController::class, 'subCategoryProducts']);
 
 
+//Search Products......
+Route::get('/search-products', [HomeController::class, 'searchProducts']);
+
+
+//Inner Pages...
+Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy']);
+Route::get('/refund-policy', [HomeController::class, 'refundPolicy']);
+
 
 
 Auth::routes();
@@ -98,3 +106,9 @@ Route::post('/admin/order/update/{id}',[OrderController::class, 'orderUpdate']);
 //Setting......
 Route::get('/admin/general-setting',[SettingController::class,'showSettings']);
 Route::post('/admin/general-setting/update',[SettingController::class,'updateSettings']);
+Route::get('/admin/home-banner',[SettingController::class,'showHomeBanner']);
+Route::post('/admin/home-banner/update',[SettingController::class,'updateHomeBanner']);
+Route::get('/admin/privacy-policy',[SettingController::class,'showPrivacyPolicy']);
+Route::post('/admin/privacy-policy/update',[SettingController::class,'updatePrivacyPolicy']);
+Route::get('/admin/refund-policy',[SettingController::class,'showRefundPolicy']);
+Route::post('/admin/refund-policy/update',[SettingController::class,'updateRefundPolicy']);

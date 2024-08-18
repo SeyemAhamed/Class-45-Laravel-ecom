@@ -22,5 +22,8 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call(SettingSeeder::class);
+        $this->call(HomeBannerSeeder::class);
+        $this->call(PrivacyPolicySeeder::class);
+        $this->call(RefundPolicySeeder::class);
     }
 }
