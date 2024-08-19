@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\OrderConfirmationMail;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
 
 class OrderController extends Controller
 {
@@ -131,6 +133,12 @@ class OrderController extends Controller
 
                         $responseData = $response->json();
                     }
+
+                    //Send Mail....
+                    if($order->email != null){
+                        Mail::to($order->email)->send(new OrderConfirmationMail($order));
+                    }
+                    //Send Mail....
 
                     $order->save();
                     toastr()->success('Order has been confirmed!');
