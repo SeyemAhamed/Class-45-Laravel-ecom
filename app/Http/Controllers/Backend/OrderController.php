@@ -15,7 +15,7 @@ class OrderController extends Controller
     public function showAllOrders ()
     {
         if(Auth::user()){
-            if(Auth::user()->role ==1){
+            if(Auth::user()->role ==1 || Auth::user()->role == 2 ){
                 $allOrders = Order::with('orderDetails')->get();
                 return view ('backend.admin.orders.allorders', compact('allOrders'));
             }
@@ -25,7 +25,7 @@ class OrderController extends Controller
     public function showPendingOrders ()
     {
         if(Auth::user()){
-            if(Auth::user()->role ==1){
+            if(Auth::user()->role ==1 || Auth::user()->role == 2 ){
                 $pendingOrders = Order::with('orderDetails')->where('status','pending')->get();
                 return view ('backend.admin.orders.pendingorders', compact('pendingOrders'));
             }
@@ -35,7 +35,7 @@ class OrderController extends Controller
     public function showConfirmedOrders ()
     {
         if(Auth::user()){
-            if(Auth::user()->role ==1){
+            if(Auth::user()->role ==1 || Auth::user()->role == 2 ){
                 $confirmedOrders = Order::with('orderDetails')->where('status','confirmed')->get();
                 return view ('backend.admin.orders.confirmedorders', compact('confirmedOrders'));
             }
@@ -45,7 +45,7 @@ class OrderController extends Controller
     public function showDeliveredOrders ()
     {
         if(Auth::user()){
-            if(Auth::user()->role ==1){
+            if(Auth::user()->role ==1 || Auth::user()->role == 2 ){
                 $deliveredOrders = Order::with('orderDetails')->where('status','delivered')->get();
                 return view ('backend.admin.orders.deliveredorders', compact('deliveredOrders'));
             }
@@ -55,7 +55,7 @@ class OrderController extends Controller
     public function showCancelledOrders ()
     {
         if(Auth::user()){
-            if(Auth::user()->role ==1){
+            if(Auth::user()->role ==1 || Auth::user()->role == 2 ){
                 $cancelledOrders = Order::with('orderDetails')->where('status','cancelled')->get();
                 return view ('backend.admin.orders.cancelledorders', compact('cancelledOrders'));
             }
@@ -65,7 +65,7 @@ class OrderController extends Controller
     public function statusCancelled ($id)
     {
         if(Auth::user()){
-            if(Auth::user()->role ==1){
+            if(Auth::user()->role ==1 || Auth::user()->role == 2 ){
                 $order = Order::find($id);
                 $order->status = 'cancelled';
 
@@ -79,7 +79,7 @@ class OrderController extends Controller
     public function statusConfirmed ($id)
     {
         if(Auth::user()){
-            if(Auth::user()->role ==1){
+            if(Auth::user()->role ==1 || Auth::user()->role == 2 ){
                 $order = Order::find($id);
                 $order->status = 'confirmed';
 
@@ -93,7 +93,7 @@ class OrderController extends Controller
     public function statusDelivered ($id)
     {
         if(Auth::user()){
-            if(Auth::user()->role ==1){
+            if(Auth::user()->role ==1 || Auth::user()->role == 2 ){
                 $order = Order::find($id);
 
                 if($order->courier_name != null){
@@ -156,7 +156,7 @@ class OrderController extends Controller
     public function orderDetails ($id)
     {
         if(Auth::user()){
-            if(Auth::user()->role ==1){
+            if(Auth::user()->role ==1 || Auth::user()->role == 2 ){
                 $order = Order::where('id', $id)->with('orderDetails')->first();
                 return view ('backend.admin.orders.details', compact('order'));
             }
