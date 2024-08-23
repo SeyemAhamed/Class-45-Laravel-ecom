@@ -112,3 +112,15 @@ Route::get('/admin/privacy-policy',[SettingController::class,'showPrivacyPolicy'
 Route::post('/admin/privacy-policy/update',[SettingController::class,'updatePrivacyPolicy']);
 Route::get('/admin/refund-policy',[SettingController::class,'showRefundPolicy']);
 Route::post('/admin/refund-policy/update',[SettingController::class,'updateRefundPolicy']);
+
+//Authentication....
+Route::get('/admin/logout',[SettingController::class,'adminLogout']);
+Route::get('/admin/credentis',[SettingController::class,'adminCredentis']);
+Route::post('/admin/credentis/update',[SettingController::class,'adminCredentisUpdate']);
+
+//Employee....
+Route::get('/admin/employee-list',[AdminController::class,'employeeList']);
+Route::get('/admin/employee-create',[AdminController::class,'employeeCreate']);
+Route::post('/admin/employee-store',[AdminController::class,'employeeStore']);
+Route::get('/admin/employee-edit/{id}',[AdminController::class,'employeeEdit']);
+Route::post('/admin/employee-update/{id}',[AdminController::class,'employeeUpdate']);

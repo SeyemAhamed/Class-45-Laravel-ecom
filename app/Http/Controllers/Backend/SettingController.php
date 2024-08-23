@@ -140,4 +140,43 @@ class SettingController extends Controller
             }
         }
     }
+
+    //Authentication....
+    public function adminLogout ()
+    {
+        Auth::logout();
+        return redirect('/admin/login');
+    }
+
+    public function adminCredentis ()
+    {
+        if(Auth::user()){
+            if(Auth::user()->role ==1 || Auth::user()->role == 2 ){
+                $authUser = Auth::user();
+                return view('backend.admin.credentis' ,compact('authUser'));
+            }
+        }    
+    }
+
+    public function adminCredentisUpdate (Request $request)
+    {
+        if(Auth::user()){
+            if(Auth::user()->role ==1 || Auth::user()->role == 2 ){
+                $authUser = Auth::user();
+                if(password_verify( $request->old_password , $authUser->password )){
+                    $authUser->password = $request->password;
+                    $authUser->save();
+                    Auth::logout();
+                    toastr()->success("Password has been changed successfully");
+                    return redirect('/admin/login');
+                }
+                
+                else{
+                    toastr()->error("Old Password doesn't match!");
+                    return redirect()->back();
+                }
+            }
+        }
+            
+    } 
 }
