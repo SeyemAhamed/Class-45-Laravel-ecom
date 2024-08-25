@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\OrderConfirmationMail;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
@@ -28,6 +29,17 @@ class OrderController extends Controller
             if(Auth::user()->role ==1 || Auth::user()->role == 2 ){
                 $pendingOrders = Order::with('orderDetails')->where('status','pending')->get();
                 return view ('backend.admin.orders.pendingorders', compact('pendingOrders'));
+            }
+        }
+    }
+
+    public function showTodayOrders ()
+    {
+        if(Auth::user()){
+            if(Auth::user()->role ==1 || Auth::user()->role == 2 ){
+                $todayDate = Carbon::today();
+                $todayOrders = Order::with('orderDetails')->whereDate('created_at', $todayDate)->get();
+                return view ('backend.admin.orders.todayorders', compact('todayOrders'));
             }
         }
     }
